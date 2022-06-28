@@ -1,5 +1,10 @@
 const products = [
   {
+    name: "spoon",
+    price: 22.99,
+    description: "handy tool",
+  },
+  {
     name: "allen wrench",
     price: 2.99,
     description: "handy tool",
