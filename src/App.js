@@ -4,12 +4,15 @@ import { Component } from "react";
 
 import Navbar from "./components/Navbar";
 import ProductsList from "./components/ProductsList";
+import Form from "./components/Form";
+import ShoppingCart from "./components/ShoppingCart";
 
 class App extends Component {
   state = {
     // if key and value are the same then only one needs to be typed
     // ex: productsData: productsData can be typed as productsData
     productsData: productsData,
+    shoppingCartItems: [],
     productName: "",
     productPrice: 0,
     productDescription: "",
@@ -26,7 +29,9 @@ class App extends Component {
       name: this.state.productName,
       price: this.state.productPrice,
       description: this.state.productDescription,
+      inStock: true,
     };
+    console.log(newProduct);
     // set the new values in the state
     this.setState({
       productsData: [newProduct, ...this.state.productsData],
@@ -36,36 +41,32 @@ class App extends Component {
     });
   };
 
+  addToCart = (product) => {
+    console.log(product);
+    this.setState({
+      shoppingCartItems: [product, ...this.state.shoppingCartItems],
+    });
+  };
+
   render() {
     return (
       <div className="App">
         <Navbar />
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="productName">Product Name</label>
-          <input
-            type="text"
-            value={this.state.productName}
-            onChange={this.handleChange}
-            id="productName"
-          />
-          <label htmlFor="productPrice">Product Price</label>
-          <input
-            type="number"
-            value={this.state.productPrice}
-            onChange={this.handleChange}
-            id="productPrice"
-          />
-          <label htmlFor="productDescription">Product Description</label>
-          <input
-            type="text"
-            value={this.state.productDescription}
-            onChange={this.handleChange}
-            id="productDescription"
-          />
-          <input type="submit" value="Submit" />
-        </form>
 
-        <ProductsList products={this.state.productsData} />
+        <ShoppingCart shoppingCartItems={this.state.shoppingCartItems} />
+
+        <Form
+          handleSubmit={this.handleSubmit}
+          handleChange={this.handleChange}
+          productName={this.state.productName}
+          productPrice={this.state.productPrice}
+          productDescription={this.state.productDescription}
+        />
+
+        <ProductsList
+          products={this.state.productsData}
+          addToCart={this.addToCart}
+        />
       </div>
     );
   }
